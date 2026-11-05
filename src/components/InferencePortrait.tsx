@@ -145,6 +145,11 @@ export function InferencePortrait() {
         }
       }
 
+      if (!source) {
+        raf = requestAnimationFrame(step)
+        return
+      }
+
       const scanY = h * scan
 
       ctx.fillStyle = "#0b0707"
@@ -276,6 +281,12 @@ export function InferencePortrait() {
 
   return (
     <div ref={wrapRef} className="relative aspect-[4/5] w-full bg-ink">
+      <img
+        src={SRC}
+        alt=""
+        className="absolute inset-0 size-full object-cover"
+        aria-hidden
+      />
       <canvas
         ref={canvasRef}
         className="absolute inset-0 size-full cursor-crosshair touch-none"
@@ -288,6 +299,7 @@ export function InferencePortrait() {
 function loadImage(src: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const img = new Image()
+    img.crossOrigin = "anonymous"
     img.onload = () => resolve(img)
     img.onerror = reject
     img.src = src
